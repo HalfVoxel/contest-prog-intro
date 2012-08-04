@@ -12,6 +12,8 @@
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \usepackage[bookmarks]{hyperref}
 \usepackage{listings}
+\usepackage[usenames,dvipsnames]{xcolor}
+
 
 % End package declarations
 
@@ -21,9 +23,17 @@ language=C++,
 showstringspaces=false,
 numbers=left,
 tabsize=2,
+basicstyle=\small\sffamily,
+numberstyle=\tiny,
+frame=tb,
+columns=fullflexible,
+showstringspaces=false,
+breaklines=true,
+breakatwhitespace=true,
+keywordstyle=\color{RoyalBlue},
+commentstyle=\color{ForestGreen}\emph,
+stringstyle=\color{Plum}\ttfamily
 }
-
-\lstset{breaklines=true, breakatwhitespace=true}
 
 \lstset{literate=%
 {Ö}{{\"O}}1
@@ -41,7 +51,7 @@ tabsize=2,
 
 % Begin title, ToC
 
-\author{Johan Sannemo}
+\author{Johan Sannemo m fl\\\small{https://github.com/jsannemo/contest-prog-intro}}
 \title{Introduktion till Tävlingsprogrammering}
 \date{Augusti 2012}
 
