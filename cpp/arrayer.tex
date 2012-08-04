@@ -1,4 +1,4 @@
-För att spara många värden, t ex 1000 heltal, skulle vi just nu behöva deklarera 1000 variabler i vår kod. Vill vi sedan läsa in 1000 heltal skulle vi behöva kopiera vår kod 1000 gånger. Detta är självklart inte rimligt eftersom det är så pass vanligt att göra i programmering.  Exempelvis har datorskärmar idag har flera miljoner pixlar, och att deklarera en variabel för varje är inte genomförbart, speciellt då olika sorters skärmar har olika antal pixlar. 
+För att spara många värden, t ex 1000 heltal, skulle vi just nu behöva deklarera 1000 variabler i vår kod. Vill vi sedan läsa in 1000 heltal skulle vi behöva kopiera vår kod 1000 gånger. Detta är självklart inte rimligt eftersom det är så pass vanligt att göra i programmering.  Exempelvis har datorskärmar idag flera miljoner pixlar, och att deklarera en variabel för varje pixel är inte genomförbart, särskilt då olika sorters skärmar har olika antal pixlar. 
 
 Istället finns \emph{arrayer}. En array är ungefär en lång rad av variabler som vi kan använda utan att behöva deklarera dem för sig. Syntaxet skiljer sig inte särskilt mycket från vanliga variabler:
 
@@ -13,3 +13,37 @@ Arrayer behöver inte ha fasta storlekar heller, som vi ser i följande exempel:
 När man deklarerar arrayer kan man också samtidigt ge dem värden. Syntaxet för det ser ut såhär:
 
 \lstinputlisting{cpp/arrayer3.cpp}
+
+Nyttigt att veta är att strängar också kan betraktas som en array av \texttt{char}. Vi kan alltså skriva till exempel:
+
+\begin{lstlisting}
+string palindrome = "Madam Adam";
+for(int i = 0; i < 10; i++){
+	cout << "Tecknet på index " << i << " = " << palindrome[i] << endl;
+}
+\end{lstlisting}
+
+Man kan också skapa arrayer som innehåller arrayer, s k \emph{multidimensionella} arrayer. Tillämpningar är exempelvis rutnät. Vi ska nu titta på vårt första lite längre och mer komplicerade kodexempel. Det tar emot ett \emph{Röj}-bräde med minor (*) och tomma rutor (.) och sedan skriver ut hur många minor som finns runt varje ruta. Här utnyttjar vi också det faktum att en sträng kan användas som en array av tecken:
+
+\lstinputlisting{cpp/arrayer4.cpp}
+
+Prova till exempel brädena:
+
+\begin{verbatim}
+4 4
+...*
+..*.
+.*.*
+*.*.
+\end{verbatim}
+
+och
+
+\begin{verbatim}
+3 3
+***
+*.*
+***
+\end{verbatim}
+
+Arrayer behöver inte bara vara tvådimensionella, utan kan ha godtyckligt många dimensioner
