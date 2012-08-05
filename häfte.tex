@@ -14,6 +14,13 @@
 \usepackage{listings}
 \usepackage[usenames,dvipsnames]{xcolor}
 
+\colorlet{KeywordColor}{RoyalBlue}
+\colorlet{CommentColor}{ForestGreen}
+\colorlet{StringColor}{Plum}
+
+\definecolor{StringColor}{HTML}{C45C05}
+\definecolor{CommentColor}{HTML}{5C980A}
+\definecolor{KeywordColor}{HTML}{241488}
 
 % End package declarations
 
@@ -30,9 +37,9 @@ columns=fullflexible,
 showstringspaces=false,
 breaklines=true,
 breakatwhitespace=true,
-keywordstyle=\color{RoyalBlue},
-commentstyle=\color{ForestGreen}\emph,
-stringstyle=\color{Plum}\ttfamily
+keywordstyle=\color{KeywordColor},
+commentstyle=\color{CommentColor}\emph,
+stringstyle=\color{StringColor}\texttt
 }
 
 \lstset{literate=%
