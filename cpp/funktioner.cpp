@@ -17,5 +17,5 @@ int main(){
 	int tal;
 	cout <<  "Skriv ett tal: " << endl;
 	cin >> tal;
-	cout << "Beloppet av ditt tal är " << abs(x) << endl;
+	cout << "Beloppet av ditt tal är " << abs(tal) << endl;
 }

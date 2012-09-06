@@ -9,23 +9,32 @@ För att kunna använda en funktion i C++ så måste den vara definerad tidigare
 
 Funktioner behöver inte returnera något heller. Det är ofta man vill ha en funktion som endast gör något men inte nödvändigtvis ger tillbaka ett svar. För att illustrera detta så behöver vi också nämna att variabler, som vi hittils endast har deklarerat innuti funktioner också kan vara globala. Dvs de är inte innuti någon funktion utan är tillgängliga från alla funktioner. Då en funktion inte ska returnera något så skriver man returntypen ``void" (iställer för ``int" som vi har använt hittils)
 
-\begin{lstlisting}
-#include <iostream>
+\lstinputlisting{cpp/funktioner2.cpp}
 
-using namespace std;
+Funktioner kan också ta flera argument, eller inga argument alls (som main funktionen). Vi kan till exempel göra en funktion som räknar ut arean av en triangel givet sidlängderna på den (Herons formel ftw! Höjd och bredd är tråkigt).
 
-int counter;
-int addToCounter (int num) {
-	counter += num;
-	cout << "Summan av alla tal är nu: " << counter << endl;
-}
+\lstinputlisting{cpp/funktioner3.cpp}
 
-int main () {
-	while (true) {
-		int tal;
-		cout << "Skriv ett tal: "<< endl;
-		cin >> tal;
-		addToCounter (tal);
-	}
-}
-\end{lstlisting}
+Funktioner kan som vi har sett anropa andra funktioner, men de kan också andropa sig själva vilket kan vara väldigt användbart.
+Här är en enkel rekursiv funktion.
+$$
+f(x) = 
+\left\{
+    \begin{array}{ll}
+        x & \mbox{om } x \leq 5 \\
+        f (x/2) & \mbox{om } x \mbox{ är jämnt} \\
+        f ((x-1)*2) & \mbox{annars}
+    \end{array}
+\right.
+$$
+
+Vi ska skriva en funktion som fungerar som ovan och skriver ut varje steg.
+
+\lstinputlisting{cpp/funktioner4.cpp}
+
+I alla ovanstående funktioner har vi skickat argument, men om vi skickar variabeln x så kommer allt som funktionen gör med den inte att påverka orginal variabeln.
+Skriver vi ett \& tecken framför argumentnamnet i funktionsdeklarationen så kommer funktionen att skickas som en referens och inte som ett värde.
+
+\lstinputlisting{cpp/funktioner5.cpp}
+
+Om du kör programmet så ser du att den första funktionen inte kommer att ändra på orginalvariablen, medans den andra funktionen kommer att göra det.
