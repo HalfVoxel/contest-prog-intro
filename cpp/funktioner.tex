@@ -5,18 +5,18 @@ Under avsnittet om villkorsuttryck såg vi hur man kunde beräkna absolutbeloppe
 
 \lstinputlisting{cpp/funktioner.cpp}
 
-För att kunna använda en funktion i C++ så måste den vara definerad tidigare i koden än den används. Det är bland annat därför man har \#include kommandona högst upp i koden. Eftersom det de är till stor del att definera funktioner så måste de vara definerade innan resten av koden.
+För att kunna använda en funktion i C++ så måste den vara definerad tidigare i koden än den används. Det är bland annat därför man har \#include-kommandona i början på koden; funktionerna de definerar måste ju deklareras innan de används.
 
-Funktioner behöver inte returnera något heller. Det är ofta man vill ha en funktion som endast gör något men inte nödvändigtvis ger tillbaka ett svar. För att illustrera detta så behöver vi också nämna att variabler, som vi hittils endast har deklarerat innuti funktioner också kan vara globala. Dvs de är inte innuti någon funktion utan är tillgängliga från alla funktioner. Då en funktion inte ska returnera något så skriver man returntypen ``void" (iställer för ``int" som vi har använt hittils)
+Funktioner behöver inte nödvändigtvis returnera ett värde som i exmeplet. Ofta vill man att en funktion ska utföra en handling men förväntar sig inget "svar". För att illustrera detta så behöver vi också nämna att variabler, som vi hittills endast har deklarerat inuti funktioner också kan vara globala. Detta betyder att de är inte är bundna till ett specifikt funktionsanrop, utan alla funktioner kan läsa värdet på variabeln när som helst. Variabelns tillstånd sparas då mellan olika funktionsanrop. Om man inte vill att en funktion ska returnera ett värde använder man returnttypen ``void'' istället för ``int''.
 
 \lstinputlisting{cpp/funktioner2.cpp}
 
-Funktioner kan också ta flera argument, eller inga argument alls (som main funktionen). Vi kan till exempel göra en funktion som räknar ut arean av en triangel givet sidlängderna på den (Herons formel ftw! Höjd och bredd är tråkigt).
+Funktioner kan också ta flera argument, eller inga argument alls (som main-funktionen). Vi kan till exempel göra en funktion som räknar ut arean av en triangel givet sidlängderna på den.
 
 \lstinputlisting{cpp/funktioner3.cpp}
 
-Funktioner kan som vi har sett anropa andra funktioner, men de kan också andropa sig själva vilket kan vara väldigt användbart.
-Här är en enkel rekursiv funktion.
+Funktioner behöver inte bara anropa andra funktioner, utan kan också anropa sig själva. Detta kallas \emph{rekursion}, och är extremt välanvänt inom tävlingsprogrammering.   
+Här definerar vi en enkel, matematisk rekursiv funktion:
 $$
 f(x) = 
 \left\{
@@ -28,12 +28,13 @@ f(x) =
 \right.
 $$
 
-Vi ska skriva en funktion som fungerar som ovan och skriver ut varje steg.
+Vi ska nu skriva kod som implementerar denna funktion:
 
 \lstinputlisting{cpp/funktioner4.cpp}
 
-I alla ovanstående funktioner har vi skickat argument, men om vi skickar variabeln x så kommer allt som funktionen gör med den inte att påverka orginal variabeln.
-Skriver vi ett \& tecken framför argumentnamnet i funktionsdeklarationen så kommer funktionen att skickas som en referens och inte som ett värde.
+Något som är värt att tänka på i C++ är hur variabler funkar. Modellen C++ använder består av \emph{värden} och \emph{pekare}. Dessa går att se på ungefär som ditt hus och din address. När man tilldelar en variabel ett värde (antingen genom tilldelningsoperatorn eller genom att skicka ett argument) kopierar man det värdet. Man tar helt enkelt huset och bygger upp en exakt kopia av det. Detta är helt rimligt när man har väldigt små hus, t ex ett tält. Att bygga upp en ny skyskrapa är aningen jobbigare, och det är då enklare att bara kopiera addressen till huset istället.
+
+Detta problem uppkommer när inom programmering när man har stora datastrukturer, t ex en sekvens av $100 000$ heltal. Att kopiera hela listen tar alldeles för mycket tid! Vi kan dock säga åt en funktion att ett argument inte ska kopieras, utan peka på samma värde som det ursprungliga; helt enkelt skicka addressen till funktionen istället för att bygga ett nytt hus. Detta gör vi genom att skriva ett \&-tecken före variabelnamnet. 
 
 \lstinputlisting{cpp/funktioner5.cpp}
 

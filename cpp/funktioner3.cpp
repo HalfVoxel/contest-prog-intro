@@ -1,6 +1,6 @@
 #include <iostream>
-//Inkludera math för att kunna använda funktionen sqrt (square root)
-#include <math.h>
+//Inkludera cmath för att kunna använda funktionen sqrt (square root)
+#include <cmath>
 
 using namespace std;
 
