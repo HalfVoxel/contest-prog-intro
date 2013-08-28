@@ -9,11 +9,40 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{parskip}
-\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \usepackage[bookmarks]{hyperref}
 \usepackage{listings}
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{todonotes}
+\usepackage{amsthm}
+\usepackage{pstricks}
+
+\begingroup
+    \makeatletter
+    \@for\theoremstyle:=definition,remark,plain\do{%
+        \expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{%
+            \addtolength\thm@preskip\parskip
+            }%
+        }
+\endgroup
+
+\newtheoremstyle{problem}
+  {3pt}% space before
+  {3pt}% space after
+  {}% body font
+  {}% indent
+  {\bfseries}% header font
+  {.}% punctuation
+  {.5em}% after theorem header
+  {}% header specification (empty for default)
+\makeatother
+
+\newtheorem{defn}{Definition}
+\newtheorem{sats}{Sats}
+
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+\newtheorem{exercise}{Övning}
+\newtheorem{example}{Exempel}
 
 \colorlet{KeywordColor}{RoyalBlue}
 \colorlet{CommentColor}{ForestGreen}
