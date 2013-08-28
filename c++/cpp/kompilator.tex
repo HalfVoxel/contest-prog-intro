@@ -1,6 +1,6 @@
 När du skriver ett program i C++ skriver du läsbar text. När datorn sedan ska köra din kod måste denna först göras om till något datorn kan läsa. Detta är \emph{kompilatorns} jobb.
 
-Vi ger lite korta instruktioner för att komma igång med C++ för OS X och Linux. Windows-användare kan installera t ex Ubuntu (\texttt{http://www.ubuntu.com/}).
+Vi ger lite korta instruktioner för att komma igång med C++ för OS X och Linux. Windows-användare kan installera t.ex Ubuntu (\texttt{http://www.ubuntu.com/}).
 
 \subsubsection{Linux}
 I ett Linux-baserat operativsystem är det nog absolut lättast att komma igång med C++. Installera \texttt{g++} med din packethanterare. I Ubuntu kan du använda kommandot
@@ -20,4 +20,23 @@ i en terminal eller kommandoprompt - det som i Windows kallas \texttt{cmd.exe}. 
 
 \subsubsection{OS X}
 
-\todo[inline]{Aron: Instruktioner för OS X}
+Det finns en del sätt att installera den vanligaste kompilatorn, g++, på OS X. Det vanligaste är att man installerar XCode, vilket är Apples utvecklingsmiljö för OS X. Detta har fördelen att du, förutom en kompilator, också får en relativt bra editor (även om man kan ha åsikter om denna) för att skriva kod i. Alternativet är att installera en package manager och sedan installera g++ direkt, detta har fördelen att du kan få en nyare version av kompilatorn. Troligtvis är detta dock inte något som kommer att vara nödvändigt för denna kurs.
+
+\paragraph{XCode}
+För att installera XCode, gå till \url{https://developer.apple.com/xcode/} och ladda ner XCode därifrån. Att installera XCode kommer troligtvis att göras via App Store. Det kan ta ett tag att installera, då nedladdningen är på ett antal gigabyte.
+
+När detta är gjort så kan du antingen skapa ett projekt i XCode och utveckla kod där, eller så kan du börja koda i godtycklig texteditor.
+Att koda i XCode kan vara både enklare och svårare. XCode är ett stort program och det tar en lång tid att lära sig, men förhoppningsvis så kan man lära sig att programmera enklare program snabbt.
+
+Kortfattat, om du vill programmera i XCode så öppnar du XCode, går till File (i menyraden) $\rightarrow$ New $\rightarrow$ Project $\rightarrow$ Välj OSX, Application, Command Line Tool $\rightarrow$ Skriv in namnet på ditt projekt $\rightarrow$ Välj var projektet ska sparas. Lyckas du inte med detta så kan du söka på google, det finns utmärkta tutorials på nätet om hur du gör detta. När du har skapat ditt projekt så kan du testa att trycka på knappen Run, du borde se texten Hello World visas i ett outputfönstret. Går allt detta bra så är det bara att börja redigera kod i filen main.cpp som du kan se i en lista till vänster i fönstret.
+
+Det går dock även i OS X att kompilera direkt i terminalen. Detta är värt att lära sig då det är ett sätt som alltid fungerar på tävlingar på nästan precis samma sätt, vilket minskar risken att man misslyckas endast för att man inte visste hur man skulle kompilera programmet.
+
+För att göra detta, öppna ett terminalfönster (Program/Verktygsprogram/Terminal), skriv $ls$ för att visa alla filer i mappen du är i, du kan gå runt mellan olika mappar genom att skriva $cd mappnamn$ för att gå in i en mapp, samt $cd ..$ för att gå upp en mapp.
+Antag att du har sparat en fil med källkod, med namnet <filnamn> (t.ex test.cpp), du kompilerar då detta program precis som du skulle göra på Linux (se ovan), dvs:
+
+\texttt{\$ g++ -Wall -O2 -g <filnamn>}
+
+Och kör precis som i Linux också, dvs:
+
+\texttt{\$ ./a.out}
