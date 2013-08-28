@@ -1,0 +1,250 @@
+\documentclass[10pt,a4paper]{article}
+
+% Package declarations
+
+\usepackage[utf8]{inputenc}
+\usepackage[swedish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[parfill]{parskip}
+\usepackage{amsthm}
+\usepackage[bookmarks]{hyperref}
+\usepackage{pstricks}
+
+\begingroup
+    \makeatletter
+    \@for\theoremstyle:=definition,remark,plain\do{%
+        \expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{%
+            \addtolength\thm@preskip\parskip
+            }%
+        }
+\endgroup
+
+\newtheoremstyle{problem}
+  {3pt}% space before
+  {3pt}% space after
+  {}% body font
+  {}% indent
+  {\bfseries}% header font
+  {.}% punctuation
+  {.5em}% after theorem header
+  {}% header specification (empty for default)
+\makeatother
+
+\newtheorem{defn}{Definition}
+\newtheorem{sats}{Sats}
+
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+\newtheorem{exercise}{Övning}
+\newtheorem{example}{Exempel}
+
+% Begin title, ToC
+
+\author{Johan Sannemo}
+\title{Grafteori}
+
+\begin{document}
+
+\Large{ALGORITMISK GRAFTEORI}
+\\
+\small{Introduktion till Tävlingsprogrammering}
+
+\section{Grunder}
+
+Grafteori är ett av de vanligast förekommande områdena i BOI och IOI. Det är studien av objekt som kallas \emph{grafer}, och har stor betydelse
+inom allt från nätverk till trafikplanering.
+
+Säg till exempel att vi har 6 stycken korsningar, numrerade från 1 - 6. Vi vet att det finns en väg mellan korsrningarna $(1,2), (2,3), (3, 4), (2, 4)$ och $(5, 5)$.
+
+Visuellt kan vi representera detta med följande bild:
+
+\begin{figure}[htp]
+    \label{fig:exempelGrafer}
+    \centering{\includegraphics[scale=0.5]{oriktad_graf.pdf}}
+\end{figure}
+
+Om vägarna istället är enkelriktade kan vi istället rita en pil mellan korsningarna:
+
+\begin{figure}[htp]
+    \label{fig:exempelGrafer}
+    \centering{\includegraphics[scale=0.5]{riktad_graf.pdf}}
+\end{figure}
+
+Studien av denna sorts objekt kallas för \emph{grafteori}.
+
+\begin{defn}
+    En \emph{graf} $G$ består av två mängder $(V, E)$. Mängden $V$ kallas för grafens \emph{noder}, och är sammanbundna av sk \emph{kanter} där varje kant binder samman två noder.
+\end{defn}
+
+En kant $(x, y)$ skrivs ibland kort som $xy$.
+
+Vårt lilla vägnätverk ovan kan vi alltså representera som en graf - mängden $V$ är då de olika korsningarna, och mängden $E$ består av de olika vägarna.
+
+Skillnaden mellan våra två vägnätverk ovan är att kanterna har en viss riktning
+
+Skillnaden mellan den riktade och oriktade grafen är att kanterna är orienterade; de ''pekar'' från en av noderna till den andra.
+Ritar vi en graf spelar det inte någon roll hur vi ritar noderna och kanterna så länge varje kant ansluter rätt par av noder.
+
+Oftast har noder inte kanter till sig själv (sk loopar) som i vårt exempel med $(5, 5)$, och det finns inte två kanter mellan samma par av noder (sk parallella kanter), om de inte är riktade åt olika
+håll i en riktad graf. Om en uppgift inte specifierar huruvida loopar eller parallella kan förekomma eller inte är det säkrast att anta att de kan finnas.
+
+\begin{defn}
+Två noder $x, y$ är grannar i grafen $G = (V, E)$ om kanten $(x, y)$ finns i $E$.
+\end{defn}
+
+I exemplet ovan har t.ex. noden 3 grannarna 2 och 4.
+
+\begin{defn}
+Graden $\deg(v)$ för en nod $v$ är antalet kanter med någon av ändpunkterna i $v$, där loopar räknas två gånger. I en riktad graf används termen \emph{utgrad} för antalet kanter som börjar i $v$ och \emph{ingrad}
+för kanter som slutar i $v$. Om $\deg(v) = 0$ säger vi att $v$ är \emph{isolerad}.
+\end{defn}
+
+
+Vi har nu gått igenom tillräckligt med teori för att bevisa vår första sats:
+
+\begin{sats}
+\emph{(Handskakningslemmat)}
+    Det finns ett jämnt antal noder med udda grad i en graf.
+\begin{proof}
+    Summan av alla grader räknar antalet kanter två gånger, dvs $\sum_{v \in V}{\deg(v)} = 2|E|$.
+    Eftersom HL är ett jämnt tal måste också VL vara det. Summan av ett udda antal udda tal är udda,
+    så VL är endast jämnt om antalet udda grader är jämnt.
+\end{proof}
+\end{sats}
+
+
+\begin{example}
+I ett örike finns ett antal tvåvägs-flygförbindelser mellan öarna. Varje ö har 2, 4 eller 6 flygförbindelser, förutom Pauls Ö som har 3 förbindelser,
+och Huvudön som har 7 förbindelser. Visa att man, med mellanlandningar, kan flyga från Pauls Ö till Huvudön. (av Paul Vaderlind)
+\begin{proof}
+Vi börjar med att bilda grafen $G$ med öarna som noder och flygförbindelser som kanter. Vi delar upp $G$ i två grafer $G_p$ och $G_h$. Dessa består av alla
+öar och flygförbindelser man kan nå från Pauls ö respektive Huvudön. Antag $G_p \not= G_h$ - dvs, vi kan inte nå Pauls Ö från Huvudön. Då har $G_p$ en nod med udda grad (Pauls Ö), och resten har jämn grad
+(2, 4 eller 6). Detta är en motsägelse enligt handskakningslemmat, så $G_p = G_h$ och Pauls Ö kan nå Huvudön.
+\end{proof}
+\end{example}
+
+
+\begin{defn}
+    En graf $G = (V, E)$ kallas \emph{viktad} om vi till varje kant $e$ i mängden $E$ ordnar ett tal $w(e)$. Vi kallar detta kantens \emph{vikt}.
+    Vi definerar $w(e) = \infty$ då $e$ inte är i $E$. I en oviktad graf låter vi $w(e) = 1$ för alla $e$.
+\end{defn}
+
+En viktad graf kan t ex representera vägarnas längd i det tidigare exemplet om en stads vägnät.
+
+\begin{defn}
+    En \emph{väg} $W = (V, E)$ är en sekvens av noder $V = (v_0, v_1, ..., v_n)$. Väg \emph{längd} är summan av dessa kanters vikter, dvs $\sum_{i = 0}^{n-1}{w(v_iv_{i+1})}$.
+    Om varje $v_i$ är olika kallar vi vägen för \emph{enkel}.
+    Om $v_0 = v_n$ är $W$ en \emph{cykel}.
+\end{defn}
+
+\begin{defn}
+	Om en graf saknar cyckler kallar vi den för \emph{acyklisk}.
+\end{defn}
+
+En cykel är alltså en väg, där man lagt till kanten mellan den sista och den första noden. I vår exempelgraf är $(2, 3, 4, 2)$ en cykel - både
+i den riktade och den oriktade grafen. I den riktade grafen är däremot inte $(2, 4, 3, 2)$ en cykel. Det är den däremot i den oriktade.
+
+\begin{defn}
+    En oriktad graf $G = (V, E)$ är \emph{sammanhängande} om det för varje par $v, u \in V$ existerar en väg mellan dem.
+    En riktad graf $G = (V, E)$ är \emph{starkt sammanhängande} om det för varje par $v, u \in V$ existerar en väg mellan dem.
+\end{defn}
+
+Vår graf ovan är inte en sammanhängande graf, ty det inte finns en väg från nod 5 till 6. Däremot är den oriktade grafen $V = \{1, 2, 3, 4\}$ sammanhängande,
+Den riktade grafen $V = \{2, 3, 4\}$ är också starkt sammanhängande, eftersom vi kan ta oss mellan varje par av noderna 2, 3, och 4.
+
+\subsection{Övningar}
+\begin{exercise}
+Visa att i en oriktad, sammanhängande graf $G = (V, E)$ gäller $|E| \ge |V| - 1$.
+\end{exercise}
+\begin{exercise}
+Visa att alla noder i en oriktad graf inte kan ha olika grader.
+\end{exercise}
+\begin{exercise}
+Givet en oriktad graf $G = (V, E)$, visa att om $|E| \ge |V|$ har $G$ en cykel.
+\end{exercise}
+\begin{exercise}
+Visa att det i varje riktad, acyklisk graf existerar en nod med ingrad 0.
+\end{exercise}
+\begin{exercise}
+I en oriktad, sammanhängande graf $G = (V, E)$ gäller $\deg(v) \ge k \ge 2$ för alla $v \in V$. Visa att det finns en väg med längd minst $k$.
+\end{exercise}
+
+\subsection{Problem}
+\begin{problem}
+Hitta en $O(|V| + |E|)$-algoritm för att avgöra om en graf är sammanhängande eller inte (problemet \texttt{connectivity} på KATTIS).
+\end{problem}
+\begin{problem}
+I en oriktad graf $G$ är $V(G) = \{v_1, ..., v_n\}$. Givet graderna $\deg(v_i)$ för alla $1 \le i < n$,
+beräkna alla värden som $\deg(v_n)$ kan anta. (problemet \texttt{degrees} på KATTIS).
+\end{problem}
+
+\section{Representation av grafer}
+För att representera en graf i datorn är ju en bild synnerligen opassande. De vanligaste sätten att spara grafer är istället \emph{grannmatriser} och \emph{grannlistor}.
+Ibland måste man också hantera \emph{implicita} grafer; fall där grafen inte är explicit given, t ex ställningarna i ett spel
+
+\subsection{Grannmatriser}
+\begin{defn}
+Om $G = (V, E)$ är en riktad, viktad graf och $V = \{v_1, ..., v_n\}$ är grafens \emph{grannmatris}  den $|V| \times |V|$-matris $A = (a_{i,j})$, där $a_{i,j} = w(v_i v_j)$.
+\end{defn}
+
+\begin{defn}
+Om $G = (V, E)$ är en riktad men oviktad graf låter vi istället $a_{i, j}$ vara antalet kanter från $v_i$ till $v_j$. Här förutsätts alltså inte
+att grafen är enkel, utan vi kan ha godtyckligt många kanter i vardera riktning mellan två noder.
+\end{defn}
+
+Denna representation använder $O(|V|^2)$ minne, och tar $O(1)$ tid för att lägga till, modifiera och ta bort kanter om den implementeras
+som en tvådimensionell vektor. Grannmatriser klarar inte av att hantera multipla kanter, förutom i fallet med oviktade grafer. Där har istället matrisen $A$ en
+hel del användbara kombinatoriska egenskaper; matrisen $A^n$ representerar då antalet stigar av längd $n$ mellan två noder. Detta kommer vi använda oss av senare.
+
+Grannmatriser är bäst att använda när $|V|^2 \approx |E|$, d v s när grafen är tät.
+
+Vi ger grannmatrisen för den riktade, oviktade exempelgrafen i figur \ref{fig:exempelGrafer}:
+
+\[ \left( \begin{array}{cccccc}
+0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0
+\end{array} \right)\]
+
+\subsection{Grannlistor}
+Ett annat sätt att representera grafer är som listor över alla kanter som en nod har. Detta kräver bara $O(|E|)$ minne, vilket är bättre när man har
+relativt få kanter i grafen. Om man för detta använder en \texttt{vector} får man $O(1)$ tilläggning och borttagning av kanter, men det tar $O(|V|)$ för att
+avgöra om en viss kant existerar. I fall där man bara konstruerar grafen en gång och sedan itererar genom kanterna för en viss nod är alltså
+tidskomplexiteten samma som för grannmatrisen; men med markant bättre tids- och minneskomplexitet när grafen är gles.
+
+\subsection{Grannmaps}
+En \emph{grannmap} kombinerar grannmatrisen och grannlistan för att få det bästa från båda världar. Istället för att varje nod har en lista av kanter använder
+man en map (\texttt{map} i C++) som mappar mål-nod till kantvikten. I en oviktad graf utan vikter kan man istället använda ett set (\texttt{set} i C++) med alla grannar.
+
+Den använder $O(|E|)$ minne, och har komplexiteten $O(\log |V|)$ för tilläggning,
+borttagning och uppslagning. Den är alltså långsammare än grannlistan när man ska iterera genom kanter, men om man blandar uppslagning och iterering tjänar
+man snabbt på att använda en grannmap.
+
+\subsection{Övningar}
+\begin{exercise}
+Givet en graf $G = (V, E)$, vilken/vilka representationer är lämpliga om:
+\begin{description}
+\item[a)]{$|V| = 1000$ och $|E| = 499500$}
+\item[b)]{$|V| = 10000$ och $|E| = 20000$}
+\item[c)]{$|V| = 1000$ och $|E| = 10000$}
+\end{description}
+\end{exercise}
+\begin{exercise}
+Bevisa egenskapen hos grannmatrisen $A$ för oviktade grafer, alltså att $A^n$ ger antal stigar av längd $n$ mellan två noder.
+\end{exercise}
+\subsection{Problem}
+\begin{problem}
+Skriv ett program som läser in en graf, sparar den i lämpligt format och svarar på frågor om vilka grannar olika noder har (problemet \texttt{neighbours} i KATTIS).
+\end{problem}
+
+\section{Sökning i grafer}
+\subsection{DFS}
+\subsection{BFS}
+
+\end{document}

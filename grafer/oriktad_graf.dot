@@ -1,0 +1,27 @@
+graph G {
+    node [shape=circle,fillcolor=lightgray,style=filled];
+    1 [
+        pos = "0, 0!"
+    ]
+    2 [
+        pos = "1, 0!"
+    ]
+    3 [
+        pos = "1, -1!"
+    ]
+    4 [
+        pos = "0, -1!"
+    ]
+    5 [
+        pos = "2, 0!"
+    ]
+    6 [
+        pos = "2, -1!"
+    ]
+    1 -- 2;
+    2 -- 3;
+    3 -- 4;
+    4 -- 2;
+    5 -- 5;
+    6;
+}

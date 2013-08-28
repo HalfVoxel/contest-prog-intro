@@ -1,0 +1,208 @@
+\documentclass[10pt,a4paper]{article}
+
+% Package declarations
+
+\usepackage[utf8]{inputenc}
+\usepackage[swedish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[parfill]{parskip}
+\usepackage{amsthm}
+\usepackage[bookmarks]{hyperref}
+\usepackage{pstricks}
+
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+
+\begingroup
+    \makeatletter
+    \@for\theoremstyle:=definition,remark,plain\do{%
+        \expandafter\g@addto@macro\csname th@\theoremstyle\endcsname{%
+            \addtolength\thm@preskip\parskip
+            }%
+        }
+\endgroup
+
+\newtheoremstyle{problem}
+  {3pt}% space before
+  {3pt}% space after
+  {}% body font
+  {}% indent
+  {\bfseries}% header font
+  {.}% punctuation
+  {.5em}% after theorem header
+  {}% header specification (empty for default)
+\makeatother
+
+\newtheorem{defn}{Definition}
+\newtheorem{sats}{Sats}
+
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}
+\newtheorem{exercise}{Övning}
+\newtheorem{example}{Exempel}
+
+% Begin title, ToC
+
+\begin{document}
+
+\Large{ANALYS AV ALGORITMER}
+\\
+\small{Introduktion till Tävlingsprogrammering}
+
+\subsubsection*{Vad är en algoritm?}
+Ett \emph{problem} består av någons sorts indata och ett utdata man vill beräkna. Några vanliga problem är t ex:
+
+Sorteringsproblemet: \\
+\textbf{Indata:} en sekvens av $n$ tal $(a_1, a_2, ..., a_n)$ \\
+\textbf{Utdata:} en permutation av sekvensen $(a'_1, a'_2, ..., a'_n)$ så att $a'_1 \le a'_2 \le ... \le a'_n$.
+
+Primtalsproblemet: \\
+\textbf{Indata:} ett positivt heltal $N$ \\
+\textbf{Utdata:} \texttt{JA} om $N$ är ett primtal, annars \texttt{NEJ}.
+
+Schack-problemet: \\
+\textbf{Indata:} en schack-position\\
+\textbf{Utdata:} det bästa möjliga draget
+
+Vi kallar ett specifikt indata till ett problem för en \emph{instans} av problemet. T ex är heltalet 154264243 en instans av primtalsproblemet.
+
+En \emph{algoritm} är en procedur som löser ett sådant problem. Det ska ta emot en indata, och förhoppningsvis terminera med rätt utdata.
+För att lösa primtalsproblemet kan vi exempelvis använda oss av följande algoritm:
+
+\begin{algorithm}
+\caption{Primtal}\label{alg:primes}
+\begin{algorithmic}[1]
+\Procedure{ÄrPrimtal}{$N$}\Comment{Avgör om $N$ är ett primtal eller inte}
+\If{$N = 1$}
+\State svara NEJ \Comment{Ett är inget primtal}
+\EndIf
+\For{$i \gets 2\text{ till }N-1$}
+\If{$N\text{ delbart med }i$}
+\State svara NEJ \Comment{Vi hittade en delare}
+\EndIf
+\EndFor
+\State svara JA \Comment{Talet hade ingen delare}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection*{Bedömning av algortimer}
+När vi analyserar en algoritm tar vi hänsyn till tre aspekter:
+\begin{itemize}
+\item{hur mycket tid tar algoritmen?}
+\item{hur mycket minne tar algoritmen?}
+\item{ger algoritmen rätt svar?/hur ofta ger den rätt svar?/hur pass optimalt är svaret?}
+\end{itemize}
+När vi tittar på en algoritm är det svårt att avgöra exakt hur många sekunder den kommer ta. Istället försöker vi ofta uppskatta hur lång tid $T(n)$ som
+algoritmen kommer ta i proportion till storleken på problemet, $n$. I vår primtalsalgoritm Algoritm \ref{alg:primes} utför vi cirka $kn$ operationer (där $k$ är någon
+konstant) för att avgöra om $n$ är ett primtal., så $T(n) \approx n$.
+
+Ofta bryr vi oss inte om ifall vi gör $2n + 15$ eller $3n - 14$ operationer; båda funktioner växer lika snabbt. För att analysera hur mycket tid en algoritm tar inför vi då vad som kallas \emph{asymptotisk notation}. Vi intresserar oss om vad som händer med tiden för ``stora'' problem. Om en algoritm har $T(n) = 2n+15$ skiljer sig $T(n)$
+bara med en konstant faktor från $n$ när $n$ blir stort. Vi formaliserar detta genom att använda oss av vad som kallas big-O-notation.
+
+\begin{defn}
+Vi säger att en funktion $f(n) = O(g(n))$ om $\frac{f(n)}{g(n)} \le c$ för alla $n \ge n_0$ där $c$ och $n_0$ är positiva konstanter som vi väljer.
+\end{defn}
+
+Rent intuitivt betyder detta att $f(n)$ växer långsammare eller lika snabbt som $g(n)$. Till exempel är $an^2 + bn + c = O(n^2)$, men även $an + b = O(n^2)$.
+Med hjälp av big-O-notation (som också kallas asymptotisk notation) har vi alltså ett enkelt sätt att jämföra hur snabba olika algoritmer är.
+
+\begin{example}
+Visa att $5n^2 + 2n + 1 = O(n^2)$.
+\end{example}
+\begin{proof}
+När $n \ge 2$ gäller $5n^2 + 2n + 1 \le 5n^2 + n^2 + n^2 \le 7n^2 \Rightarrow \frac{5n^2 + 2n + 1}{n^2} \le 7$ för $n \ge 2$. Med konstanterna $c = 7$ och $n_0 = 2$
+uppfylls alltså villkoret i definitionen.
+\end{proof}
+
+Vi kallar tiden som en algoritm tar med avseende på problemstorleken för algoritmens \emph{tidskomplexitet}.
+Motsvarande kan vi mäta hur mycket minne en algoritm tar med hjälp av asymptotisk notation, något vi kallar algoritmens \emph{minneskomplexitet}.
+Vår primtalsalgoritm använder alltid ett konstant antal heltal i minnet. För konstanter $k$ säger vi att $k = O(1)$.
+För att avgöra om den algoritm man har kommit på är snabb nog kan man använda följande tabell. Den uppskattar hur stort problem
+en algoritm med en viss komplexitet kan lösa på några sekunder.
+
+\begin{center}
+\begin{tabular}{ | l | l | }
+\hline
+Komplexitet & $n$ \\ \hline
+$O(\log n)$ & $2^{(10^7)}$ \\ \hline
+$O(\sqrt{n})$ & $10^{14}$ \\ \hline
+$O(n)$ & $10^7$ \\ \hline
+$O(n \log n)$ & $10^6$ \\ \hline
+$O(n \sqrt n)$ & $10^5$ \\ \hline
+$O(n^2)$ & $2 \cdot 10^3$ \\ \hline
+$O(n^3)$ & $200$ \\ \hline
+$O(2^n)$ & $23$ \\ \hline
+$O(n!)$ & $13$ \\ \hline
+\end{tabular}
+\end{center}
+
+När man löser ett problem ska dock fokus alltid vara på att ha en korrekt algoritm. Ett program som går långsamt men ger rätt svar kan ge
+delpoäng, medean ett snabbt program som svarar att $1 + 1 = 3$ inte är mycket att ha. Däremot finns det vissa problem som ingen snabb
+algoritm är känd för. Schack-problemet har vi inte kommit på någon snabb lösning till än, så vi gör istället uppskattningar, \emph{heuristiker},
+som är snabba men inte optimala. Ibland kan en icke-optimal algoritm ändå vara tillräckligt bra; dagens schackprogram är i klass med den
+mänskliga världseliten.
+
+Liknande problem uppkommer ibland i de internationella programmeringsolympiaderna. Då gäller det att kombinera kreativitet med teknik
+för att komma på en så snabb heuristik som möjligt, men som också ger ett så bra svar som möjligt.
+
+\begin{example}
+Problemet med att hitta den kortaste rundturen som besöker alla städer i ett land fågelvägen är ett av de mest kända problem som vi inte har
+löst snabbt än. En enkel (och dålig) heuristik för detta problem är följande algoritm:
+
+\begin{algorithm}[H]
+\caption{Rundturs-heuristik}\label{alg:tsp}
+\begin{algorithmic}[1]
+\Procedure{HittaRundtur}{$h, S$}\Comment{Huvudstaden i ett land och mängden städer}
+\State $tour \gets ()$
+\State $visited \gets \emptyset$.
+\State $now \gets h$ \Comment{Staden vi besöker just nu}
+\While{alla städer inte finns i $visited$}
+\State $next \gets $ den närmsta staden till $now$ som inte ligger i $visited$
+\State $visited \gets visited\cup \{next\}$
+\State add $next$ to $tour$
+\State $now \gets next$
+\EndWhile
+\State return $tour$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+Vi gör här uppskattningen att om vi hela tiden går till den stad som vi inte besökt än, men som ligger närmast staden vi är i kommer turen bli ganska kort. Det är bättre
+än en slumpmässig tur, men det går att konstruera exempel där den är riktigt usel. Problemet, som benämns \emph{handelsresandeproblemet}, har många bra
+heuristiker som för upp till några hundra städer snabbt hittar den bästa turen.
+
+\end{example}
+
+\subsubsection*{Övningar}
+\begin{exercise}
+Modifiera primtalsalgoritmen till att ha tidskomplexiteten $O(\sqrt{N})$.
+\end{exercise}
+\begin{exercise}
+Ge en $O(n)$-algoritm och en $O(1)$-algoritm för att summera de $n$ första heltalen.
+\end{exercise}
+\begin{exercise}
+Visa med definitionen för asymptotisk notation att $10n^2 + 7n - 5 + \log^2 n = O(n^2)$. Ge ett exempel på konstanter $c, n_0$ som uppfyller villkoret.
+\end{exercise}
+\begin{exercise}
+Visa att $f(n) + g(n) = O(max\{f(n), g(n)\})$.
+\end{exercise}
+\begin{exercise}
+Visa att sorterings-problemet inte är lösbart snabbare än $O(n \log n)$ för sorteringar som baseras på jämförelser mellan element.
+\end{exercise}
+\begin{exercise}
+Bestäm komplexiteten hos Algoritm \ref{alg:tsp}.
+\end{exercise}
+\begin{exercise}
+Är $2^{n+1} = O(2^n)$? Är $2^{2n} = O(2^n)$?
+\end{exercise}
+\begin{exercise}
+Visa att $(n + a)^b = O(n^b)$ för positiva konstanter $a, b > 0$.
+\end{exercise}
+\end{document}
