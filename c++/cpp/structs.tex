@@ -1,0 +1,24 @@
+En struct är som en liten samling variabler och funktioner i ett objekt.
+Antag att du ska manipulera en lista med punkter. Du har deras X,Y och Z koordinater och du vill
+sortera dem efter först X koordinat, sedan Y koordinat, och sist Z koordinat.
+Vi skulle kunna spara alla värden i arrayer, vilket skulle fungera, men det blir ganska jobbigt att skriva.
+Se examplet nedan, vi använder bubble sort för enkelhetens skull. Det är en enkel sorteringsalgoritm. Kortfattat så går den igenom all element och byter plats på närliggande element tills listan är sorterad. Det är inte nödvändigt att du förstår exakt hur den fungerar ännu.
+
+\lstinputlisting{cpp/structs1.cpp}
+
+Det var ganska mycket repeterad kod, så nu ska vi försöka göra detta lite enklare genom att introducera structs.
+En struct defineras som en lista med variabeldeklarationer och funktioner (om några):
+
+\lstinputlisting{cpp/structs2.cpp}
+
+Så hur blir nu orginalkoden om vi använder structs?
+
+\lstinputlisting{cpp/structs3.cpp}
+
+En hel del kortare. Notera speciellt hur enkelt det var att byta plats på punkterna. Det skulle bli samma kod oavsett hur många variabler vi hade i dem.
+
+En viktig sak att veta med structs är att när du tilldelar en variabel värdet av en annan struct, eller skickar en struct som parameter till en funktion, så kopieras structen. Det är alltså inte samma struct, bara en kopia.
+
+\lstinputlisting{cpp/structs4.cpp}
+
+I vissa fall kan det vara användbart att inte kopiera structen, utan att ha en referens till den. För detta krävs så kallade pekare vilket inte täcks i denna sektion.
